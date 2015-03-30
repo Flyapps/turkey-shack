@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Clean cookies</title>
+    <script>
+      var COOKIE_NAME = 'dontShowOffer';
+
+      var Cookies = {
+        "get": function get(key) {
+          var cookies = document.cookie.split(';'),
+              regexTrimStart = /\s+(.*)/g;
+
+          for(var i=0, cookie; cookie=cookies[i++];) {
+            cookie = cookie.split('=');
+            if (cookie[0].replace(regexTrimStart, '$1') === key) {
+              return cookie[1];
+            }
+          }
+
+          return null;
+        },
+
+        "set": function set(key, value, ttl) {
+          var expires = '';
+
+          if (ttl) {
+            var date = new Date();
+            date.setTime(date.getTime() + ttl * 1000);
+            expires = '; expires=' + date.toGMTString();
+          }
+
+          document.cookie = key + '=' + (value || '') + expires + '; path=/';
+        },
+
+        "remove": function remove(key) {
+          this.set(key, '', -1);
+        }
+      };
+
+      Cookies.remove(COOKIE_NAME);
+    </script>
+  </head>
+  <body>
+    <h1>Cleaned cookies - please refresh the game!</h1>
+  </body>
+</html>
